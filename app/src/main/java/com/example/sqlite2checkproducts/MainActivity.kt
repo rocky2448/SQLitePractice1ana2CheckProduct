@@ -14,9 +14,7 @@ import androidx.core.view.WindowInsetsCompat
 
 class MainActivity : AppCompatActivity() {
 
-    var users: MutableList<User> = mutableListOf(
-        User(24, "Roman", "rocky2448")
-    )
+    var users: MutableList<User> = mutableListOf()
     var listAdapter: MyListAdapter? = null
     val dataBase = DBHelper(this)
     private lateinit var userIdET: EditText
