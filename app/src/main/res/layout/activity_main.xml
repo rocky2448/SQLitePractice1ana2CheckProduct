@@ -20,7 +20,8 @@
         <ListView
             android:id="@+id/listViewLV"
             android:layout_width="wrap_content"
-            android:layout_height="350sp" />
+            android:layout_height="350sp"
+            tools:listitem="@layout/list_item"/>
 
     </LinearLayout>
 

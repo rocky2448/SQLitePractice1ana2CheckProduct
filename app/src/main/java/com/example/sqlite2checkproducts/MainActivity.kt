@@ -63,6 +63,31 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+
+
+    private fun viewDataAdapter() {
+        users = dataBase.readUser()
+        listAdapter = MyListAdapter(this, users)
+        listViewLV.adapter = listAdapter
+        listAdapter?.notifyDataSetChanged()
+    }
+
+    private fun saveRecord() {
+        val id = userIdET.text.toString()
+        val name = userNameET.text.toString()
+        val email = userEmailET.text.toString()
+        if (id.trim() != "" && name.trim() != "" && email.trim() != "") {
+            val user = User(Integer.parseInt(id), name, email)
+            users.add(user)
+            Toast.makeText(applicationContext, "Запись добавлена", Toast.LENGTH_SHORT).show()
+            userIdET.text.clear()
+            userNameET.text.clear()
+            userEmailET.text.clear()
+            viewDataAdapter()
+        }
+
+    }
+
     private fun updateRecord() {
         val dialogBuilder = AlertDialog.Builder(this)
         val inflater = this.layoutInflater
@@ -87,29 +112,6 @@ class MainActivity : AppCompatActivity() {
         }
         dialogBuilder.setNegativeButton("Отмена") {dialog, which -> }
         dialogBuilder.create().show()
-    }
-
-    private fun viewDataAdapter() {
-        users = dataBase.readUser()
-        listAdapter = MyListAdapter(this, users)
-        listViewLV.adapter = listAdapter
-        listAdapter?.notifyDataSetChanged()
-    }
-
-    private fun saveRecord() {
-        val id = userIdET.text.toString()
-        val name = userNameET.text.toString()
-        val email = userEmailET.text.toString()
-        if (id.trim() != "" && name.trim() != "" && email.trim() != "") {
-            val user = User(Integer.parseInt(id), name, email)
-            users.add(user)
-            Toast.makeText(applicationContext, "Запись добавлена", Toast.LENGTH_SHORT).show()
-            userIdET.text.clear()
-            userNameET.text.clear()
-            userEmailET.text.clear()
-            viewDataAdapter()
-        }
-
     }
 
     private fun deleteRecord() {
