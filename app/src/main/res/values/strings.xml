@@ -1,15 +1,19 @@
 <resources>
-    <string name="app_name">SQLite2CheckProducts</string>
+    <string name="app_name">Check Products</string>
     <string name="save_btn">Сохранить</string>
     <string name="update_btn">Изменить</string>
     <string name="delete_btn">Удалить</string>
-    <string name="id_user_tv">id пользователя</string>
-    <string name="name_user_tv">Имя пользователя</string>
-    <string name="email_user_tv">Email пользователя</string>
+    <string name="id_product_tv">id продукта</string>
+    <string name="name_product_tv">Назавание продукта</string>
+    <string name="weight_product_tv">Вес продукта</string>
+    <string name="price_tv">Цена продукта</string>
     <string name="id">id</string>
-    <string name="name">Имя</string>
-    <string name="email">Email</string>
+    <string name="name">Название</string>
+    <string name="weight">Вес</string>
+    <string name="price">Цена</string>
     <string name="input_id">Введите id</string>
-    <string name="input_name">Введите имя</string>
-    <string name="input_email">Введите email</string>
+    <string name="input_name">Введите название</string>
+    <string name="input_weight">Введите вес</string>
+    <string name="input_price">Введите цену</string>
+    <string name="exit">Выход</string>
 </resources>

@@ -8,21 +8,23 @@ import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.TextView
 
-class MyListAdapter(private val context: Context, userList: MutableList<User>) :
-ArrayAdapter<User>(context, R.layout.list_item, userList){
+class MyListAdapter(private val context: Context, productList: MutableList<Product>) :
+ArrayAdapter<Product>(context, R.layout.list_item, productList){
     @SuppressLint("SetTextI18n")
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
-        val user = getItem(position)
+        val product = getItem(position)
         var view = convertView
         if (view == null) {
             view = LayoutInflater.from(context).inflate(R.layout.list_item, parent, false)
         }
         val idText = view?.findViewById<TextView>(R.id.idTV)
         val nameText = view?.findViewById<TextView>(R.id.nameTV)
-        val emailText = view?.findViewById<TextView>(R.id.emailTV)
-        idText?.text = "id: ${user?.userId}"
-        nameText?.text = "Имя: ${user?.userName}"
-        emailText?.text = "Email: ${user?.userEmail}"
+        val weightText = view?.findViewById<TextView>(R.id.weightTV)
+        val priceText = view?.findViewById<TextView>(R.id.priceTV)
+        idText?.text = "id: ${product?.productId}"
+        nameText?.text = "Название: ${product?.productName}"
+        weightText?.text = "Вес: ${product?.productWeight}"
+        priceText?.text = "Цена: ${product?.productPrice}"
         return view!!
     }
 }

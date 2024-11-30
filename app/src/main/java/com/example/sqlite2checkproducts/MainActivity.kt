@@ -1,25 +1,31 @@
 package com.example.sqlite2checkproducts
 
 import android.os.Bundle
-import android.provider.ContactsContract.CommonDataKinds.Email
+import android.view.Menu
+import android.view.MenuItem
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ListView
+import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 
 class MainActivity : AppCompatActivity() {
 
-    var users: MutableList<User> = mutableListOf()
+    var products: MutableList<Product> = mutableListOf()
     var listAdapter: MyListAdapter? = null
     val dataBase = DBHelper(this)
-    private lateinit var userIdET: EditText
-    private lateinit var userNameET: EditText
-    private lateinit var userEmailET: EditText
+    var updateId: Int = 1
+    private lateinit var toolbarMain: Toolbar
+    private lateinit var productIdTV: TextView
+    private lateinit var productNameET: EditText
+    private lateinit var productWeightET: EditText
+    private lateinit var productPriceET: EditText
     private lateinit var listViewLV: ListView
     private lateinit var saveBTN: Button
     private lateinit var updateBTN: Button
@@ -35,14 +41,23 @@ class MainActivity : AppCompatActivity() {
             insets
         }
 
-        userIdET = findViewById(R.id.userIdET)
-        userNameET = findViewById(R.id.userNameET)
-        userEmailET = findViewById(R.id.userEmailET)
+        toolbarMain = findViewById(R.id.toolbarMain)
+        productIdTV = findViewById(R.id.productIdTV)
+        productNameET = findViewById(R.id.productNameET)
+        productWeightET = findViewById(R.id.productWeightET)
+        productPriceET = findViewById(R.id.productPriceET)
         listViewLV = findViewById(R.id.listViewLV)
         saveBTN = findViewById(R.id.saveBTN)
         updateBTN = findViewById(R.id.updateBTN)
         deleteBTN = findViewById(R.id.deleteBTN)
+
         viewDataAdapter()
+        updateIdInScreen()
+
+        setSupportActionBar(toolbarMain)
+        title = "Корзина"
+        toolbarMain.subtitle = "by Rocky"
+        toolbarMain.setLogo(R.drawable.ic_toolbar)
 
         saveBTN.setOnClickListener{
             saveRecord()
@@ -50,8 +65,6 @@ class MainActivity : AppCompatActivity() {
 
 
     }
-
-
 
     override fun onResume() {
         super.onResume()
@@ -63,26 +76,37 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-
-
     private fun viewDataAdapter() {
-        users = dataBase.readUser()
-        listAdapter = MyListAdapter(this, users)
+        products = dataBase.readProduct()
+        listAdapter = MyListAdapter(this, products)
         listViewLV.adapter = listAdapter
         listAdapter?.notifyDataSetChanged()
+        productIdTV.text = updateId.toString()
+    }
+
+    private fun updateIdInScreen() {
+        updateId = products[products.size - 1].productId + 1
+        productIdTV.text = updateId.toString()
     }
 
     private fun saveRecord() {
-        val id = userIdET.text.toString()
-        val name = userNameET.text.toString()
-        val email = userEmailET.text.toString()
-        if (id.trim() != "" && name.trim() != "" && email.trim() != "") {
-            val user = User(Integer.parseInt(id), name, email)
-            users.add(user)
+        if (products.isNotEmpty()) {
+            updateId
+        }else updateId = 1
+
+        val name = productNameET.text.toString()
+        val weight = productWeightET.text.toString()
+        val price = productPriceET.text.toString()
+        if (updateId.toString() != "" && name.trim() != "" && weight.trim() != "" && price.trim() != "") {
+            val product = Product(updateId, name, weight, price)
+            products.add(product)
+            dataBase.addProduct(product)
             Toast.makeText(applicationContext, "Запись добавлена", Toast.LENGTH_SHORT).show()
-            userIdET.text.clear()
-            userNameET.text.clear()
-            userEmailET.text.clear()
+            productIdTV.text = ""
+            productNameET.text.clear()
+            productWeightET.text.clear()
+            productPriceET.text.clear()
+            updateId++
             viewDataAdapter()
         }
 
@@ -95,18 +119,21 @@ class MainActivity : AppCompatActivity() {
         dialogBuilder.setView(dialogView)
         val editId = dialogView.findViewById<EditText>(R.id.updateIdET)
         val editName = dialogView.findViewById<EditText>(R.id.updateNameET)
-        val editEmail = dialogView.findViewById<EditText>(R.id.updateEmailET)
+        val editWeight = dialogView.findViewById<EditText>(R.id.updateWeightET)
+        val editPrice = dialogView.findViewById<EditText>(R.id.updatePriceET)
 
         dialogBuilder.setTitle("Обновить запись")
         dialogBuilder.setMessage("Введите данные ниже")
         dialogBuilder.setPositiveButton("Обновить") { _, _ ->
-            val updateId = editId.text.toString()
+            updateId = editId.text.toString().toInt()
             val updateName = editName.text.toString()
-            val updateEmail = editEmail.text.toString()
-            if (updateId.trim() != "" && updateName.trim() != "" && updateEmail.trim() != "") {
-                val user = User(Integer.parseInt(updateId), updateName, updateEmail)
-                dataBase.updateUser(user)
+            val updateWeight = editWeight.text.toString()
+            val updatePrice = editPrice.text.toString()
+            if (updateId.toString().trim() != "" && updateName.trim() != "" && updateWeight.trim() != "" && updatePrice.trim() != "") {
+                val product = Product(updateId, updateName, updateWeight, updatePrice)
+                dataBase.updateProduct(product)
                 viewDataAdapter()
+                updateIdInScreen()
                 Toast.makeText(applicationContext, "Запись обновлена", Toast.LENGTH_SHORT).show()
             }
         }
@@ -127,13 +154,26 @@ class MainActivity : AppCompatActivity() {
         dialogBuilder.setPositiveButton("Удалить") { _, _ ->
             val deleteId = chooseDeleteId.text.toString()
             if (deleteId.trim() != "") {
-                val user = User(Integer.parseInt(deleteId), "", "")
-                dataBase.deleteUser(user)
+                val product = Product(Integer.parseInt(deleteId), "", "", "")
+                dataBase.deleteProduct(product)
                 viewDataAdapter()
+                updateIdInScreen()
                 Toast.makeText(applicationContext, "Запись удалена", Toast.LENGTH_SHORT).show()
             }
         }
         dialogBuilder.setNegativeButton("Отмена") { _, _ -> }
         dialogBuilder.create().show()
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.menu, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.exitMenuMain -> finishAffinity()
+        }
+        return super.onOptionsItemSelected(item)
     }
 }

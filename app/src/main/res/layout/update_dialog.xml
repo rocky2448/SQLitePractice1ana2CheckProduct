@@ -3,6 +3,7 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/background"
     android:padding="10dp">
 
     <EditText
@@ -10,6 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
+        android:textColor="@color/green"
         android:hint="@string/input_id" />
 
     <EditText
@@ -17,13 +19,23 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
+        android:textColor="@color/green"
         android:hint="@string/input_name" />
 
     <EditText
-        android:id="@+id/updateEmailET"
+        android:id="@+id/updateWeightET"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
-        android:hint="@string/input_email" />
+        android:textColor="@color/green"
+        android:hint="@string/input_weight" />
+
+    <EditText
+        android:id="@+id/updatePriceET"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:textColor="@color/green"
+        android:hint="@string/input_price" />
 
 </LinearLayout>

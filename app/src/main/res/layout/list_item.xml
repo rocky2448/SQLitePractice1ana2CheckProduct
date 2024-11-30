@@ -9,6 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/id"
+        android:textColor="@color/green"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
 
 
@@ -17,13 +18,23 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/name"
+        android:textColor="@color/green"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
 
     <TextView
-        android:id="@+id/emailTV"
+        android:id="@+id/weightTV"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/email"
+        android:text="@string/weight"
+        android:textColor="@color/green"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+
+    <TextView
+        android:id="@+id/priceTV"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/price"
+        android:textColor="@color/green"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
 
 

@@ -5,10 +5,17 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_margin="8dp"
     android:orientation="vertical"
-    android:padding="6dp"
+    android:background="@color/background"
     tools:context=".MainActivity">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbarMain"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/toolbar"
+        app:titleTextColor="@color/white"
+        tools:ignore="MissingConstraints" />
 
     <include layout="@layout/tabel_panel" />
 
@@ -21,6 +28,7 @@
             android:id="@+id/listViewLV"
             android:layout_width="wrap_content"
             android:layout_height="350sp"
+            android:layout_marginHorizontal="8dp"
             tools:listitem="@layout/list_item"/>
 
     </LinearLayout>
